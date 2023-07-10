@@ -60,6 +60,19 @@ for url in url_list:
     except TimeoutException:
         first_word = 'N/A'
 
+    try:
+        ciudad_element = wait.until(EC.presence_of_element_located((By.XPATH,
+                                                                    "/html/body/pn-root/pn-navigation/mat-sidenav-container/mat-sidenav-content/pn-asset-detail/div/div[1]/div[1]/div[2]")))
+        ciudad_text = ciudad_element.text
+        words = ciudad_text.split(",")  # divide la cadena en palabras usando la coma como separador
+        if len(words) > 1:
+            second_word = words[0].strip()
+            second_word = second_word.replace("room", "")# accede a la palabra después de la coma
+        else:
+            second_word = 'N/A'  # si no hay palabra después de la coma
+    except TimeoutException:
+        second_word = 'N/A'
+
     # Metros cuadrados
     try:
         metros_element = wait.until(
@@ -119,7 +132,7 @@ for url in url_list:
 
     # Imagen principal
     try:
-        main_photo_element = wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id='swiper-wrapper-11b10e45faf688495']/div[1]/pn-responsive-image/picture/img")))
+        main_photo_element = wait.until(EC.presence_of_element_located((By.XPATH, "//picture[@class='ng-star-inserted']//img")))
         image_source = main_photo_element.get_attribute("src")
     except:
         image_source = 'N/A'
@@ -132,7 +145,7 @@ for url in url_list:
     #     image_sources = 'N/A'
 
     #imprimir todos los valores por consola
-    print(f'ref: {referencia_text}, title: {title_text}, description: {descripcion_text}, metros: {metros_text}, hab: {dormitorio_text}, baños: {bano_text}, price: {price_text}, provincia: {first_word},´img: {image_source}')
+    print(f'ref: {referencia_text}, title: {title_text}, description: {descripcion_text}, metros: {metros_text}, hab: {dormitorio_text}, baños: {bano_text}, price: {price_text}, provincia: {first_word}, ciudad: {second_word}, ´MainPhoto: {image_source}')
 
     # Almacenar los datos en la lista
     data.append({
@@ -140,6 +153,7 @@ for url in url_list:
         "Title": title_text,
         "Descripcion": descripcion_text,
         "Provincia": first_word,
+        "Ciudad": second_word,
         "MetrosCuadrados": metros_text,
         "Dormitorios": dormitorio_text,
         "Baños": bano_text,
@@ -150,12 +164,9 @@ for url in url_list:
     })
 
     # Convertir la lista de datos en un DataFrame
-    df = pd.DataFrame(data, columns=['Referencia', 'Title', 'Descripcion', 'MetrosCuadrados', 'Dormitorios', 'Baños', 'Price', 'MainPhoto', 'Provincia'])
-
-
+    df = pd.DataFrame(data, columns=['Referencia', 'Title', 'Descripcion', 'MetrosCuadrados', 'Dormitorios', 'Baños', 'Price', 'MainPhoto', 'Provincia', 'Ciudad'])
     if counter % 20 == 0:
         file_counter = counter // 20
-
         df.to_excel(f"properties_data_{file_counter}.xlsx", index=False, engine="openpyxl")
 
 driver.quit()
