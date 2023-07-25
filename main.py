@@ -33,7 +33,7 @@ counter = 0
 for url in url_links:
 
     driver.get(url)
-    time.sleep(10)
+
 
     accept_cookies_button_locator = (
     By.CSS_SELECTOR, "#mat-dialog-0 > pn-result-dialog > div > div > button:nth-child(2)")
@@ -48,11 +48,11 @@ for url in url_links:
     # wait = WebDriverWait(driver, 10)
 
 
-    # wait = WebDriverWait(driver, 10)
+    wait = WebDriverWait(driver, 4)
 
     # provincia
     try:
-        provincia_element = driver.find_elements(By.XPATH,"/html/body/pn-root/pn-navigation/mat-sidenav-container/mat-sidenav-content/pn-asset-detail/div/div[1]/div[1]/div[2]")
+        provincia_element = wait.until(EC.presence_of_element_located((By.XPATH,"/html/body/pn-root/pn-navigation/mat-sidenav-container/mat-sidenav-content/pn-asset-detail/div/div[1]/div[1]/div[2]")))
 
         provincia_text = provincia_element.text
         words = provincia_text.split(",")  # divide la cadena en palabras usando la coma como separador
@@ -61,8 +61,8 @@ for url in url_links:
         first_word = 'N/A'
 
     try:
-        ciudad_element = driver.find_elements(By.XPATH,
-                                                                    "/html/body/pn-root/pn-navigation/mat-sidenav-container/mat-sidenav-content/pn-asset-detail/div/div[1]/div[1]/div[2]")
+        ciudad_element = wait.until(EC.presence_of_element_located((By.XPATH,
+                                                                    "/html/body/pn-root/pn-navigation/mat-sidenav-container/mat-sidenav-content/pn-asset-detail/div/div[1]/div[1]/div[2]")))
         ciudad_text = ciudad_element.text
         words = ciudad_text.split(",")  # divide la cadena en palabras usando la coma como separador
         if len(words) > 1:
@@ -75,7 +75,8 @@ for url in url_links:
 
     # Metros cuadrados
     try:
-        metros_element = driver.find_elements(By.XPATH, "/html/body/pn-root/pn-navigation/mat-sidenav-container/mat-sidenav-content/pn-asset-detail/div/div[1]/div[2]/div[2]/div[1]/span")
+        metros_element = wait.until(
+            EC.presence_of_element_located((By.XPATH, "/html/body/pn-root/pn-navigation/mat-sidenav-container/mat-sidenav-content/pn-asset-detail/div/div[1]/div[2]/div[2]/div[1]/span")))
         metros_text = metros_element.text
 
     except TimeoutException:
@@ -83,7 +84,7 @@ for url in url_links:
 
     # Dormitorios
     try:
-        dormitorio_element = driver.find_elements(By.XPATH,"/html/body/pn-root/pn-navigation/mat-sidenav-container/mat-sidenav-content/pn-asset-detail/div/div[1]/div[2]/div[2]/div[2]/span")
+        dormitorio_element = wait.until(EC.presence_of_element_located((By.XPATH,"/html/body/pn-root/pn-navigation/mat-sidenav-container/mat-sidenav-content/pn-asset-detail/div/div[1]/div[2]/div[2]/div[2]/span")))
         dormitorio_text = dormitorio_element.text
 
     except TimeoutException:
@@ -91,7 +92,7 @@ for url in url_links:
 
     # Baños
     try:
-        bano_element = driver.find_elements(By.XPATH,"/html/body/pn-root/pn-navigation/mat-sidenav-container/mat-sidenav-content/pn-asset-detail/div/div[1]/div[2]/div[2]/div[3]/span")
+        bano_element = wait.until(EC.presence_of_element_located((By.XPATH,"/html/body/pn-root/pn-navigation/mat-sidenav-container/mat-sidenav-content/pn-asset-detail/div/div[1]/div[2]/div[2]/div[3]/span")))
         bano_text = bano_element.text
         bano_text = bano_text.replace("Baños:", "")
     except TimeoutException:
@@ -100,7 +101,7 @@ for url in url_links:
 
     # Referencia
     try:
-        referencia_element = driver.find_elements(By.XPATH,"/html/body/pn-root/pn-navigation/mat-sidenav-container/mat-sidenav-content/pn-asset-detail/div/div[2]/div/div/span")
+        referencia_element = wait.until(EC.presence_of_element_located((By.XPATH,"/html/body/pn-root/pn-navigation/mat-sidenav-container/mat-sidenav-content/pn-asset-detail/div/div[2]/div/div/span")))
         referencia_text = referencia_element.text
         referencia_text = referencia_text.replace("Ref:", "")
     except TimeoutException:
@@ -109,7 +110,7 @@ for url in url_links:
 
     # Título
     try:
-        title_element = driver.find_elements(By.XPATH, "/html/body/pn-root/pn-navigation/mat-sidenav-container/mat-sidenav-content/pn-asset-detail/div/div[1]/div[1]/h1")
+        title_element = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/pn-root/pn-navigation/mat-sidenav-container/mat-sidenav-content/pn-asset-detail/div/div[1]/div[1]/h1")))
         title_text = title_element.text
     except:
         title_text = 'N/A'
@@ -117,21 +118,21 @@ for url in url_links:
 
     # Descripción
     try:
-        descripcion_element = driver.find_elements(By.XPATH, "/html/body/pn-root/pn-navigation/mat-sidenav-container/mat-sidenav-content/pn-asset-detail/div/div[1]/div[1]/div[3]")
+        descripcion_element = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/pn-root/pn-navigation/mat-sidenav-container/mat-sidenav-content/pn-asset-detail/div/div[1]/div[1]/div[3]")))
         descripcion_text = descripcion_element.text
     except:
         descripcion_text = 'N/A'
 
     # Precio
     try:
-        price_element = driver.find_elements(By.XPATH, "/html/body/pn-root/pn-navigation/mat-sidenav-container/mat-sidenav-content/pn-asset-detail/div/div[2]/div/div/div/div[1]")
+        price_element = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/pn-root/pn-navigation/mat-sidenav-container/mat-sidenav-content/pn-asset-detail/div/div[2]/div/div/div/div[1]")))
         price_text = price_element.text                                         
     except:
         price_text = 'N/A'
 
     # Imagen principal
     try:
-        main_photo_element = driver.find_elements(By.XPATH, "//picture[@class='ng-star-inserted']//img")
+        main_photo_element = wait.until(EC.presence_of_element_located((By.XPATH, "//picture[@class='ng-star-inserted']//img")))
         image_source = main_photo_element.get_attribute("src")
     except:
         image_source = 'N/A'
