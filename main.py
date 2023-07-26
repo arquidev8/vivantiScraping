@@ -10,7 +10,8 @@ import time
 import re
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from portalnowResidential import url_links
+# from portalnowResidential import url_links
+from portalnow_industrial import url_links2
 
 # Inicializar el navegador
 driver = webdriver.Chrome()
@@ -30,7 +31,7 @@ driver = webdriver.Chrome()
 
 data = []
 counter = 0
-for url in url_links:
+for url in url_links2:
 
     driver.get(url)
 
